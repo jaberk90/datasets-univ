@@ -2,15 +2,172 @@
   "version": "2.5.0-RC1",
   "summary": {
     "title": "Threat Model Diagram",
-    "owner": "",
-    "description": "",
+    "owner": "Jaber Kaal",
+    "description": "Actor: User Browser; Processes: Login Page, Web Application, Open Source Auth Component; Data Store: Database. Trust boundaries separate the Internet, Application/Backend, and Database. Flows cover login, credential check, MotD retrieval/display, and comment submission/ack.",
     "id": 0
   },
   "detail": {
     "contributors": [],
-    "diagrams": [],
-    "diagramTop": 0,
-    "reviewer": "",
-    "threatTop": 0
+    "diagrams": [
+      {
+        "id": 0,
+        "title": "initial diagram",
+        "diagramType": "STRIDE",
+        "placeholder": "New STRIDE diagram description",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.5.0-RC1",
+        "cells": [
+          {
+            "position": { "x": 116.25, "y": 80 },
+            "size": { "width": 260, "height": 210 },
+            "attrs": { "label": { "text": "Trust Boundary: internet" } },
+            "visible": true,
+            "shape": "trust-boundary-box",
+            "zIndex": -1,
+            "id": "8f1ca0d7-8e04-4df2-b215-500657f38c02",
+            "data": { "type": "tm.BoundaryBox", "name": "Trust Boundary: internet", "isTrustBoundary": true }
+          },
+          {
+            "position": { "x": 464, "y": 155 },
+            "size": { "width": 370, "height": 270 },
+            "attrs": { "label": { "text": "Trust Boundary: Application/Backend" } },
+            "visible": true,
+            "shape": "trust-boundary-box",
+            "zIndex": -1,
+            "id": "092042b5-d933-4e24-90d8-ac609061eea2",
+            "data": { "type": "tm.BoundaryBox", "name": "Trust Boundary: Application/Backend", "isTrustBoundary": true }
+          },
+          {
+            "position": { "x": 389, "y": 535 },
+            "size": { "width": 200, "height": 110 },
+            "attrs": { "label": { "text": "Trust Boundary: Database" } },
+            "visible": true,
+            "shape": "trust-boundary-box",
+            "zIndex": -1,
+            "id": "d762dfb7-3e2d-49bb-99dd-36f4e6e16143",
+            "data": { "type": "tm.BoundaryBox", "name": "Trust Boundary: Database", "isTrustBoundary": true }
+          },
+          {
+            "position": { "x": 180, "y": 155 },
+            "size": { "width": 112.5, "height": 60 },
+            "attrs": { "text": { "text": "User Browser" } },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 1,
+            "id": "f1846eeb-37f2-43f6-ac03-48501a1667cd",
+            "data": {
+              "type": "tm.Actor",
+              "name": "User Browser",
+              "threats": [
+                {
+                  "id": "T1",
+                  "title": "Spoofing User Identity",
+                  "description": "An attacker may spoof login credentials to impersonate a user.",
+                  "status": "Open",
+                  "severity": "High",
+                  "stride": "Spoofing"
+                }
+              ]
+            }
+          },
+          {
+            "position": { "x": 539, "y": 215 },
+            "size": { "width": 220, "height": 70 },
+            "attrs": { "text": { "text": "Web Application" } },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 2,
+            "id": "e7fa9648-0b0c-449c-a222-e84f32b585cf",
+            "data": {
+              "type": "tm.Actor",
+              "name": "Web Application",
+              "threats": [
+                {
+                  "id": "T2",
+                  "title": "Tampering via SQL Injection",
+                  "description": "Malicious input may modify database queries and alter data.",
+                  "status": "Open",
+                  "severity": "High",
+                  "stride": "Tampering"
+                }
+              ]
+            }
+          },
+          {
+            "position": { "x": 539, "y": 320 },
+            "size": { "width": 230, "height": 70 },
+            "attrs": { "text": { "text": "Open-source Auth Component" } },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 3,
+            "id": "69dcc064-a11a-4962-8aba-51563c443e75",
+            "data": {
+              "type": "tm.Actor",
+              "name": "Open-source Auth Component",
+              "threats": [
+                {
+                  "id": "T3",
+                  "title": "Vulnerable Authentication Logic",
+                  "description": "Weaknesses in the open-source auth module may allow bypassing login.",
+                  "status": "Open",
+                  "severity": "High",
+                  "stride": "Elevation of Privilege"
+                }
+              ]
+            }
+          },
+          {
+            "position": { "x": 419, "y": 560 },
+            "size": { "width": 120, "height": 60 },
+            "attrs": { "text": { "text": "Database" } },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 4,
+            "id": "c8e10dbb-7a9a-4867-929f-45a6df4587d4",
+            "data": {
+              "type": "tm.Store",
+              "name": "Database",
+              "storesCredentials": true,
+              "threats": [
+                {
+                  "id": "T4",
+                  "title": "Information Disclosure of Credentials",
+                  "description": "If the database is not encrypted, attackers may steal user passwords.",
+                  "status": "Open",
+                  "severity": "High",
+                  "stride": "Information Disclosure"
+                }
+              ]
+            }
+          },
+          {
+            "shape": "flow",
+            "id": "5f4cebfb-cbf3-465c-94bc-4f63d5fb297e",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Data Flow",
+              "isBidirectional": true,
+              "threats": [
+                {
+                  "id": "T5",
+                  "title": "Denial of Service Attack",
+                  "description": "Attackers may overload the login or comment flow to disrupt service.",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "stride": "Denial of Service"
+                }
+              ]
+            },
+            "labels": ["Data Flow"],
+            "source": { "x": 619, "y": 425 },
+            "target": { "x": 590, "y": 580 }
+          }
+        ],
+        "description": "This diagram shows the data flow for the sample web application including login, open source authentication, message-of-the-day retrieval, and comments."
+      }
+    ],
+    "diagramTop": 1,
+    "reviewer": "Todd Wolfe",
+    "threatTop": 5
   }
 }
